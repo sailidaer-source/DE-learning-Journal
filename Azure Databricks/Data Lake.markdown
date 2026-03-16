@@ -1,7 +1,7 @@
 
 # 📘 Accessing Azure Data Lake Storage Gen2 — Overview (Study Notes)
 
-## ## 1. Why Authentication Is Needed
+## 1. Why Authentication Is Needed
 Databricks cannot directly access Azure Data Lake Storage Gen2 (ADLS Gen2).  
 To read or write data, Databricks must **authenticate** itself to Azure.
 
@@ -11,11 +11,11 @@ Every access method is essentially answering the question:
 
 ---
 
-## ## 2. Authentication Methods in Databricks
+## 2. Authentication Methods in Databricks
 
 Azure Databricks supports **five major authentication patterns** for accessing ADLS Gen2.
 
-### ### 2.1 Access Key
+### 2.1 Access Key
 - Each storage account has a **primary access key**.
 - Works like a “master password” for the entire storage account.
 - Simple but **not secure**.
@@ -23,7 +23,7 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ---
 
-### ### 2.2 SAS Token (Shared Access Signature)
+### 2.2 SAS Token (Shared Access Signature)
 - A **temporary** and **more granular** access token.
 - Can limit:
   - Permissions (read/write/list)
@@ -33,7 +33,7 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ---
 
-### ### 2.3 Service Principal (SP)
+### 2.3 Service Principal (SP)
 - A **dedicated application identity** created in Azure AD.
 - You assign permissions to this identity using **IAM roles**.
 - Databricks uses the SP’s credentials to access ADLS.
@@ -41,7 +41,7 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ---
 
-### ### 2.4 AAD Passthrough Authentication
+### 2.4 AAD Passthrough Authentication
 - Databricks uses the **user’s own Azure AD identity**.
 - Access is granted only if the user has permissions in ADLS IAM.
 - Ensures fine‑grained, user‑level security.
@@ -49,7 +49,7 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ---
 
-### ### 2.5 Unity Catalog (Newest Method)
+### 2.5 Unity Catalog (Newest Method)
 - Databricks’ centralized governance and permission system.
 - Access is controlled through **Unity Catalog permissions**, not Azure IAM.
 - Databricks checks the user’s UC privileges before accessing ADLS.
@@ -58,11 +58,11 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ---
 
-## ## 3. Session Scoped vs Cluster Scoped Authentication
+## 3. Session Scoped vs Cluster Scoped Authentication
 
 Authentication can be applied at two different scopes:
 
-### ### 3.1 Session Scoped Authentication
+### 3.1 Session Scoped Authentication
 - Credentials are set **inside a notebook**.
 - Valid only while the notebook is attached to a cluster.
 - Ends when the session ends.
@@ -78,7 +78,7 @@ spark.conf.set("fs.azure.account.key.<storage>.dfs.core.windows.net", "<key>")
 
 ---
 
-### ### 3.2 Cluster Scoped Authentication
+### 3.2 Cluster Scoped Authentication
 - Credentials are configured **on the cluster itself**.
 - Authentication happens when the cluster starts.
 - All notebooks attached to the cluster inherit the access.
@@ -89,7 +89,7 @@ spark.conf.set("fs.azure.account.key.<storage>.dfs.core.windows.net", "<key>")
 
 ---
 
-## ## 4. What You Will Learn in This Course Section
+## 4. What You Will Learn in This Course Section
 
 The course will walk through each authentication method:
 
@@ -106,7 +106,7 @@ Unity Catalog is mentioned but not covered in detail, because:
 
 ---
 
-## ## 5. Key Takeaways
+## 5. Key Takeaways
 
 - Databricks needs authentication to access ADLS Gen2.
 - There are **five** main authentication patterns.
@@ -117,7 +117,3 @@ Unity Catalog is mentioned but not covered in detail, because:
 
 ---
 
-
-### ✔ 带你做一个 Databricks → ADLS 的完整实战项目  
-
-你想继续深入哪一部分？
