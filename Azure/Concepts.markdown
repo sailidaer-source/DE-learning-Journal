@@ -3,7 +3,7 @@
 ## 1. What is a Cluster?
 - **Cluster**: A group of nodes (computing units) working together to process tasks in parallel.
 - **Node**: A single computing unit (VM or container).
-- **Driver / Control Plane**: The “leader” that schedules and manages tasks.
+- **Driver / Control Plane**: The “leader” that schedules and manages tasks
 - **Worker Node**: Executes the actual computations.
 
 👉 Analogy: If you have 100 assignments, you form a team of 10 people.  
