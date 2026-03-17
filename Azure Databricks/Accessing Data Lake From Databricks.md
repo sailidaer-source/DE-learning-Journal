@@ -18,3 +18,4 @@
        "fs.azure.account.key.<storage-account>.dfs.core.windows.net",
        "<your-access-key>"
    )
+![Databricks Access Key](Azure%20Databricks/pic/access%20key1.png)
