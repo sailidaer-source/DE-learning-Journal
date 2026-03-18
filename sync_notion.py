@@ -41,12 +41,13 @@ def get_text(prop):
 def generate_markdown(item):
     props = item["properties"]
 
-    title = get_text(props["Title"])
-    main_cat = ", ".join([t["name"] for t in props["Main Category"]["multi_select"]])
-    sub_cat = ", ".join([t["name"] for t in props["Subcategory"]["multi_select"]])
-    status = props["Learning Status"]["status"]["name"] if props["Learning Status"]["status"] else ""
-    priority = props["Priority"]["select"]["name"] if props["Priority"]["select"] else ""
-    date = props["Learning Date"]["date"]["start"] if props["Learning Date"]["date"] else ""
+    # 你的 Notion 字段名（来自截图）
+    title = get_text(props["笔记标题"])
+    main_cat = ", ".join([t["name"] for t in props["按主类别分类"]["multi_select"]])
+    sub_cat = ", ".join([t["name"] for t in props["子类别"]["multi_select"]])
+    status = props["学习状态"]["status"]["name"] if props["学习状态"]["status"] else ""
+    priority = props["优先级"]["select"]["name"] if props["优先级"]["select"] else ""
+    date = props["学习日期"]["date"]["start"] if props["学习日期"]["date"] else ""
 
     md = f"# {title}\n\n"
     md += f"**Main Category:** {main_cat}\n\n"
