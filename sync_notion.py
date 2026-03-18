@@ -1,34 +1,40 @@
-from notion_client import Client
 import os
 import re
+import requests
 
 # ==================== 配置 ====================
-notion = Client(auth=os.environ["NOTION_TOKEN"])
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 DATABASE_ID = "3271bea0bf2f80e491a2cee8f861025e"
 OUTPUT_DIR = "notion_export"
+NOTION_VERSION = "2022-06-28"   # 官方稳定版本
 
-def clean_filename(name):
-    """清理文件名"""
+HEADERS = {
+    "Authorization": f"Bearer {NOTION_TOKEN}",
+    "Notion-Version": NOTION_VERSION,
+    "Content-Type": "application/json"
+}
+
+def clean_filename(name: str) -> str:
     name = re.sub(r'[\\/*?:"<>|]', "_", name.strip())
     return name if name else "untitled"
 
-def fetch_database_items():
-    """正确分页查询（已确保无 AttributeError）"""
-    results = []
-    next_cursor = None
+def fetch_all_pages():
+    """使用官方 REST API 查询（彻底解决 AttributeError）"""
+    url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
+    pages = []
+    cursor = None
     while True:
-        response = notion.databases.query(
-            database_id=DATABASE_ID,
-            start_cursor=next_cursor
-        )
-        results.extend(response["results"])
-        next_cursor = response.get("next_cursor")
-        if not next_cursor:
+        payload = {"start_cursor": cursor} if cursor else {}
+        resp = requests.post(url, headers=HEADERS, json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+        pages.extend(data["results"])
+        if not data.get("has_more"):
             break
-    return results
+        cursor = data.get("next_cursor")
+    return pages
 
-def safe_get(props, key, kind=None):
-    """安全取值（已适配你的真实字段名）"""
+def safe_get(props: dict, key: str, kind: str = None):
     if key not in props:
         return ""
     prop = props[key]
@@ -40,22 +46,20 @@ def safe_get(props, key, kind=None):
         return prop.get("status", {}).get("name", "")
     if kind == "date":
         return prop.get("date", {}).get("start", "")
-    if "title" in prop:
-        return "".join([t["plain_text"] for t in prop["title"]])
+    if prop.get("title"):
+        return "".join([t.get("plain_text", "") for t in prop["title"]])
     return ""
 
 def main():
-    print("🚀 开始同步 Notion 数据库...")
-    items = fetch_database_items()
+    print("🚀 开始同步 Notion 数据库（使用官方 API）...")
+    items = fetch_all_pages()
     print(f"📊 共获取 {len(items)} 条记录")
 
-    # 1. 清空旧文件（实现删除同步）
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     for f in os.listdir(OUTPUT_DIR):
         if f.endswith(".md"):
             os.remove(os.path.join(OUTPUT_DIR, f))
 
-    # 2. 生成新 Markdown
     for item in items:
         props = item["properties"]
         title = safe_get(props, "笔记标题")
@@ -67,17 +71,4 @@ def main():
 
         md = f"# {title}\n\n"
         md += f"**主类别:** {main_cat}\n\n"
-        md += f"**子类别:** {sub_cat}\n\n"
-        md += f"**学习状态:** {status}\n\n"
-        md += f"**优先级:** {priority}\n\n"
-        md += f"**学习日期:** {date}\n\n"
-
-        filename = clean_filename(title) + ".md"
-        with open(os.path.join(OUTPUT_DIR, filename), "w", encoding="utf-8") as f:
-            f.write(md)
-        print(f"✅ 生成 {filename}")
-
-    print("🎉 同步完成！")
-
-if __name__ == "__main__":
-    main()
+        md += f"**子类别:**
