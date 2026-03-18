@@ -2,11 +2,11 @@ name: Sync Notion to GitHub
 
 on:
   schedule:
-    - cron: '0 2 * * *'      # 每天北京时间 10:00 自动运行
-  workflow_dispatch:         # 支持手动触发
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 
 permissions:
-  contents: write            # ← 修复：放在正确位置（原来写在 on: 下面导致失败）
+  contents: write
 
 jobs:
   sync:
@@ -21,15 +21,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 安装依赖
-        run: pip install notion-client
+      - name: 安装依赖（使用 requests，彻底避开 SDK 问题）
+        run: pip install requests
 
       - name: 执行同步脚本
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: python sync_notion.py
 
-      - name: Commit & Push（使用你的 GHUB_TOKEN）
+      - name: Commit & Push
         env:
           GH_TOKEN: ${{ secrets.GHUB_TOKEN }}
         run: |
