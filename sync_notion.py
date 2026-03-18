@@ -41,6 +41,7 @@ def get_text(prop):
 def generate_markdown(item):
     props = item["properties"]
 
+    # 使用你数据库的真实字段名
     title = get_text(props["笔记链接"])
     main_cat = ", ".join([t["name"] for t in props["主类别"]["multi_select"]])
     sub_cat = ", ".join([t["name"] for t in props["子类别"]["multi_select"]])
