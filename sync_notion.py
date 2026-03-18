@@ -19,10 +19,8 @@ def fetch_database_items():
 
     while True:
         response = notion.databases.query(
-            **{
-                "database_id": DATABASE_ID,
-                "start_cursor": next_cursor,
-            }
+            database_id=DATABASE_ID,
+            start_cursor=next_cursor
         )
         results.extend(response["results"])
         next_cursor = response.get("next_cursor")
