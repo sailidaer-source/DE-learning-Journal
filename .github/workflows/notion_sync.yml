@@ -23,6 +23,8 @@ jobs:
 
       - name: Run sync script
         run: python sync_notion.py
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
 
       - name: Commit changes
         run: |
