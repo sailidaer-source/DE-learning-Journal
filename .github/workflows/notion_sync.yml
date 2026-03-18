@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install notion-client markdownify
+          pip install --upgrade notion-client markdownify
 
       - name: Run sync script
         env:
