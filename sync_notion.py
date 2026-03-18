@@ -6,7 +6,7 @@ import requests
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 DATABASE_ID = "3271bea0bf2f80e491a2cee8f861025e"
 OUTPUT_DIR = "notion_export"
-NOTION_VERSION = "2022-06-28"   # 官方稳定版本
+NOTION_VERSION = "2022-06-28"
 
 HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -19,7 +19,7 @@ def clean_filename(name: str) -> str:
     return name if name else "untitled"
 
 def fetch_all_pages():
-    """使用官方 REST API 查询（彻底解决 AttributeError）"""
+    """官方 API 查询（无 SDK 问题）"""
     url = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
     pages = []
     cursor = None
@@ -51,7 +51,7 @@ def safe_get(props: dict, key: str, kind: str = None):
     return ""
 
 def main():
-    print("🚀 开始同步 Notion 数据库（使用官方 API）...")
+    print("🚀 开始同步 Notion 数据库（官方 API）...")
     items = fetch_all_pages()
     print(f"📊 共获取 {len(items)} 条记录")
 
@@ -69,6 +69,24 @@ def main():
         priority = safe_get(props, "优先级", "select")
         date = safe_get(props, "学习日期", "date")
 
-        md = f"# {title}\n\n"
-        md += f"**主类别:** {main_cat}\n\n"
-        md += f"**子类别:**
+        # ✅ 使用列表拼接，避免任何 f-string 复制问题
+        sections = [
+            f"# {title}",
+            f"**主类别:** {main_cat}",
+            f"**子类别:** {sub_cat}",
+            f"**学习状态:** {status}",
+            f"**优先级:** {priority}",
+            f"**学习日期:** {date}",
+            f"**最后编辑:** {item['last_edited_time']}"
+        ]
+        md = "\n\n".join(sections) + "\n"
+
+        filename = clean_filename(title) + ".md"
+        with open(os.path.join(OUTPUT_DIR, filename), "w", encoding="utf-8") as f:
+            f.write(md)
+        print(f"✅ 生成 {filename}")
+
+    print("🎉 同步完成！")
+
+if __name__ == "__main__":
+    main()
