@@ -7,7 +7,7 @@ To read or write data, Databricks must **authenticate** itself to Azure.
 
 Every access method is essentially answering the question:
 
-> **“Who are you, and do you have permission to access this storage?”**
+> **“Who are you, and do you have permission to access this storage?”** 
 
 ---
 
