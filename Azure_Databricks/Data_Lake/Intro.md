@@ -1,6 +1,6 @@
 
 # 📘 Accessing Azure Data Lake Storage Gen2 — Overview (Study Notes)
-
+  
 ## 1. Why Authentication Is Needed
 Databricks cannot directly access Azure Data Lake Storage Gen2 (ADLS Gen2).
 To read or write data, Databricks must **authenticate** itself to Azure.
