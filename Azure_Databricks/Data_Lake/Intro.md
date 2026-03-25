@@ -17,7 +17,7 @@ Azure Databricks supports **five major authentication patterns** for accessing A
 
 ### 2.1 Access Key
 - Each storage account has a **primary access key**.
-- Works like a “master password” for the entire storage account.
+- Works like a “master password” for the entire storage account. 
 - Simple but **not secure**.
 - Suitable only for learning or testing.
 
