@@ -5,7 +5,7 @@
 Databricks cannot directly access Azure Data Lake Storage Gen2 (ADLS Gen2).
 To read or write data, Databricks must **authenticate** itself to Azure.
 
-Every access method is essentially answering the question:
+Every access method is essentially answering the question: 
  
 > **“Who are you, and do you have permission to access this storage?”** 
 
