@@ -6,7 +6,7 @@
 - In Databricks, you configure Spark with the key before accessing data.
 
 ## Steps
-
+ 
 1. **Get the Access Key**
    - Go to **Azure Portal → Storage Account → Security + Networking → Access keys**.
    - Copy either the primary or secondary key.
