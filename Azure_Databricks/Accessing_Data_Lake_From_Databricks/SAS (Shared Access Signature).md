@@ -57,6 +57,6 @@ sas_token = generate_file_sas(
     file_name="report.pdf",
     account_key="secret_key",
     permission=FileSasPermissions(read=True),
-    expiry=datetime.utcnow() + timedelta(hours=2) # 2小时后过期
+    expiry=datetime.utcnow() + timedelta(hours=2) 
 )
 ```
