@@ -9,7 +9,7 @@ Every access method is essentially answering the question:
  
 > **“Who are you, and do you have permission to access this storage?”** 
 
----
+--- 
 
 ## 2. Authentication Methods in Databricks
 
