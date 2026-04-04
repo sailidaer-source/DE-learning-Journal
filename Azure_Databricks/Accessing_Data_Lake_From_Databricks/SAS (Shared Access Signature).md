@@ -45,18 +45,3 @@ Unlike standard Blob storage, ADLS Gen2 has a hierarchical namespace.
 4. **IP Restrictions**: Use the `sip` parameter to limit access to known client IP addresses.
 
 ---
-
-## 6. Code Snippet (Python Example)
-```python
-# Create a read-only SAS for a specific file
-from azure.storage.filedatalake import generate_file_sas, FileSasPermissions
-
-sas_token = generate_file_sas(
-    account_name="mystorage",
-    file_system_name="mycontainer",
-    file_name="report.pdf",
-    account_key="secret_key",
-    permission=FileSasPermissions(read=True),
-    expiry=datetime.utcnow() + timedelta(hours=2) 
-)
-```
